@@ -12,8 +12,8 @@ pipeline {
 
     stage('Docker Build') {
       steps {
-        sh "docker build -t bar ."
-        sh "docker tag docker tag bar slholmess/bar-microservice:0.1"
+        sh "docker build -f Dockerfile -t bar ."
+        sh "docker tag bar slholmess/bar-microservice:0.1"
       }
     }
     
