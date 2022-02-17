@@ -10,26 +10,10 @@ pipeline {
       }
     }
 
-    stage('Docker Build') {
-      steps {
-        sh "docker build -t bar ."
-        sh "docker tag bar slholmess/bar-microservice:0.1"
-      }
-    }
-    
-    stage('Docker Push') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-          sh "docker push slholmess/bar-microservice:0.1"
-        }
-      }
-    }
-    
     stage('Deploy App') {
       steps {
         script {
-          kubernetesDeploy(configs: "bar.yaml", kubeconfigId: "mykubeconfig")
+          kubernetesDeploy(configs: "foo.yaml", kubeconfigId: "mykubeconfig")
         }
       }
     }
