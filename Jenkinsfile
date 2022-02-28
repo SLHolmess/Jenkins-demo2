@@ -1,23 +1,17 @@
 pipeline {
-
-  agent { label 'kubeagent' }
-
+  agent { label 'kubepod' }
   stages {
-
     stage('Checkout Source') {
       steps {
         git url:'https://github.com/SLHolmess/Jenkins-demo2', branch:'main'
       }
     }
-
-    stage('Apply Kubernetes Files') {
+    stage('Deploy App') {
       steps {
-          withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh 'kubectl apply -f foo.yaml'
+        script {
+          kubernetesDeploy(configs: "foo.yaml", kubeconfigId: "mykubeconfig")
         }
       }
     }
-
   }
-
 }
